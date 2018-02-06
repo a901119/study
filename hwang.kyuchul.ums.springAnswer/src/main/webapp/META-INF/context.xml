@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>    
+	<Resource name="jdbc/ums"  
+		   auth="Container"             
+		   type="javax.sql.DataSource"  
+		   username="ums"              
+		   password="ums"              
+		   driverClassName="oracle.jdbc.driver.OracleDriver"
+		   factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
+		   url="jdbc:oracle:thin:@127.0.0.1:1521:xe" 
+		   maxActive="2" 
+		   minIdle="2"/>	   
+</Context>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:mvc="http://www.springframework.org/schema/mvc" 
+   xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+   xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+   xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd
+      http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context 
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://mybatis.org/schema/mybatis-spring
+      http://mybatis.org/schema/mybatis-spring.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd
+      http://www.springframework.org/schema/aop 
+      http://www.springframework.org/schema/aop/spring-aop.xsd">
+		
+		<context:component-scan base-package="hwang.kyuchul.ums"/>
+		
+		<mvc:annotation-driven/>
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/views/"/>
+			<property name="suffix" value=".jsp"/>
+		</bean>
+		
+	   <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	      <property name="jndiName" value="java:comp/env/jdbc/ums" />
+	      <property name="resourceRef" value="true"/>
+	   </bean>
+		
+	  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	      <property name="dataSource" ref="dataSource"/>
+	      <property name="configLocation"
+				value="classpath:hwang/kyuchul/ums/dao/config/SqlMapConfig.xml"/>
+			<property name="mapperLocations">
+				<array>
+					<value>classpath:hwang/kyuchul/ums/dao/mapper/**/*.xml</value>
+				</array>
+			</property>	
+		</bean>
+		<mybatis:scan base-package="hwang.kyuchul.ums.dao.mapper"/>
+		
+	   <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+			<property name="messageConverters">
+				<list>
+					<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+				</list>
+			</property>
+		</bean>
+</beans>
